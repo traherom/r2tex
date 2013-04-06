@@ -1,4 +1,4 @@
-mat2tex <- function(m, vseps=FALSE, hseps=FALSE) {
+mat2tex <- function(m, vseps=FALSE, hseps=FALSE, alwaystopline=FALSE, alwaysrightline=FALSE) {
 	# Parameters ok?
 	if(!is.matrix(m)) {
 		error("m must be a matrix")
@@ -16,13 +16,17 @@ mat2tex <- function(m, vseps=FALSE, hseps=FALSE) {
 	rows = rownames(m)
 	if(length(rows) > 0) {
 		useRowNames = TRUE
+
+		if(alwaysrightline) {
+			cat("|")
+		}
 		cat("r|")
 	} else {
 		useRowNames = FALSE
 	}
 
 	# Line before first value?
-	if((!useRowNames && isTRUE(vseps)) || (!is.logical(vseps) && any(vseps == 0))) {
+	if((!useRowNames && alwaysrightline) || (!useRowNames && isTRUE(vseps)) || (!is.logical(vseps) && any(vseps == 0))) {
 		cat("|")
 	}
 	
@@ -36,6 +40,11 @@ mat2tex <- function(m, vseps=FALSE, hseps=FALSE) {
 	}
 
 	cat("}\n")
+
+	# If there is a header row, this is the only way to get a line above it
+	if(alwaystopline) {
+		cat("\t\\hline\n")
+	}
 
 	# Header row, if applicable
 	cols = colnames(m)
@@ -65,7 +74,6 @@ mat2tex <- function(m, vseps=FALSE, hseps=FALSE) {
 	} else {
 		useColNames = FALSE
 	}
-
 
 	# Horizontal line before first row?
 	if((!useColNames && isTRUE(hseps)) || (!is.logical(hseps) && any(hseps == 0))) {
