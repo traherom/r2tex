@@ -1,4 +1,6 @@
-mat2tex <- function(m, vseps=FALSE, hseps=FALSE, alwaystopline=FALSE, alwaysleftline=FALSE) {
+mat2tex <- function(m, vseps=FALSE, hseps=FALSE,
+		alwaystopline=FALSE, alwaysleftline=FALSE,
+		extra_notes=NULL) {
 	# Parameters ok?
 	if(!is.matrix(m)) {
 		error("m must be a matrix")
@@ -95,6 +97,10 @@ mat2tex <- function(m, vseps=FALSE, hseps=FALSE, alwaystopline=FALSE, alwaysleft
 			v = m[r, i]
 			if(!is.na(v))
 				cat(v)
+
+			if(is.matrix(extra_notes) && !is.na(extra_notes[r, i])) {
+				cat(toString(extra_notes[r, i]))
+			}
 
 			# Not the last one, right?
 			if(i < width) {
