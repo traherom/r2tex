@@ -1,4 +1,4 @@
-mat2tex <- function(m, vseps=FALSE, hseps=FALSE, alwaystopline=FALSE, alwaysrightline=FALSE) {
+mat2tex <- function(m, vseps=FALSE, hseps=FALSE, alwaystopline=FALSE, alwaysleftline=FALSE) {
 	# Parameters ok?
 	if(!is.matrix(m)) {
 		error("m must be a matrix")
@@ -17,7 +17,7 @@ mat2tex <- function(m, vseps=FALSE, hseps=FALSE, alwaystopline=FALSE, alwaysrigh
 	if(length(rows) > 0) {
 		useRowNames = TRUE
 
-		if(alwaysrightline) {
+		if(alwaysleftline) {
 			cat("|")
 		}
 		cat("r|")
@@ -26,7 +26,7 @@ mat2tex <- function(m, vseps=FALSE, hseps=FALSE, alwaystopline=FALSE, alwaysrigh
 	}
 
 	# Line before first value?
-	if((!useRowNames && alwaysrightline) || (!useRowNames && isTRUE(vseps)) || (!is.logical(vseps) && any(vseps == 0))) {
+	if((!useRowNames && alwaysleftline) || (!useRowNames && isTRUE(vseps)) || (!is.logical(vseps) && any(vseps == 0))) {
 		cat("|")
 	}
 	
